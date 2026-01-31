@@ -1,0 +1,186 @@
+import {
+    FileCode, Type, Wifi, Fingerprint, AlignLeft, Palette,
+    QrCode, Lock, Clock, Link as LinkIcon, GitCompare,
+    FileText, Image, Scissors, Database, Search, Shield,
+    Monitor, Tag, Youtube, Share2
+} from 'lucide-react';
+
+export interface Tool {
+    id: string;
+    name: string;
+    description: string;
+    href: string;
+    icon: any;
+    category: 'Dev' | 'Social' | 'Utility';
+}
+
+export const TOOLS: Tool[] = [
+    {
+        id: '1',
+        name: 'JSON Formatter',
+        description: 'Làm đẹp, minifier và validate chuỗi JSON.',
+        href: '/tools/json-formatter',
+        icon: FileCode,
+        category: 'Dev',
+    },
+    {
+        id: '2',
+        name: 'Base64 Converter',
+        description: 'Mã hóa và giải mã chuỗi Base64.',
+        href: '/tools/base64',
+        icon: Type,
+        category: 'Dev',
+    },
+    {
+        id: '3',
+        name: 'Wifi QR Code',
+        description: 'Tạo mã QR chia sẻ Wifi không cần đọc pass.',
+        href: '/tools/wifi-qr',
+        icon: Wifi,
+        category: 'Utility',
+    },
+    {
+        id: '4',
+        name: 'UUID Generator',
+        description: 'Tạo ngẫu nhiên UUID/GUID v4 số lượng lớn.',
+        href: '/tools/uuid',
+        icon: Fingerprint,
+        category: 'Dev',
+    },
+    {
+        id: '5',
+        name: 'URL Encoder/Decoder',
+        description: 'Mã hóa/Giải mã ký tự đặc biệt trong URL.',
+        href: '/tools/url-encoder',
+        icon: LinkIcon,
+        category: 'Dev',
+    },
+    {
+        id: '6',
+        name: 'Unix Timestamp',
+        description: 'Chuyển đổi giữa Epoch timestamp và ngày giờ thực.',
+        href: '/tools/timestamp',
+        icon: Clock,
+        category: 'Dev',
+    },
+    {
+        id: '7',
+        name: 'CSS Minifier',
+        description: 'Nén code CSS giúp website tải nhanh hơn.',
+        href: '/tools/css-minifier',
+        icon: Scissors,
+        category: 'Dev',
+    },
+    {
+        id: '8',
+        name: 'SQL Formatter',
+        description: 'Định dạng câu lệnh SQL cho dễ đọc.',
+        href: '/tools/sql-formatter',
+        icon: Database,
+        category: 'Dev',
+    },
+    {
+        id: '9',
+        name: 'Text Diff Checker',
+        description: 'So sánh sự khác biệt giữa hai đoạn văn bản.',
+        href: '/tools/diff-checker',
+        icon: GitCompare,
+        category: 'Dev',
+    },
+    {
+        id: '10',
+        name: 'Hash Generator',
+        description: 'Tạo mã băm MD5, SHA-1, SHA-256...',
+        href: '/tools/hash',
+        icon: Shield,
+        category: 'Dev',
+    },
+    {
+        id: '11',
+        name: 'Regex Tester',
+        description: 'Kiểm tra nhanh các biểu thức chính quy (Regex).',
+        href: '/tools/regex',
+        icon: Search,
+        category: 'Dev',
+    },
+    {
+        id: '12',
+        name: 'User Agent Parser',
+        description: 'Phân tích thông tin thiết bị từ chuỗi User Agent.',
+        href: '/tools/user-agent',
+        icon: Monitor,
+        category: 'Dev',
+    },
+    {
+        id: '13',
+        name: 'Markdown Preview',
+        description: 'Trình soạn thảo và xem trước Markdown realtime.',
+        href: '/tools/markdown',
+        icon: FileText,
+        category: 'Dev',
+    },
+    {
+        id: '14',
+        name: 'Password Generator',
+        description: 'Tạo mật khẩu mạnh ngẫu nhiên với ký tự đặc biệt.',
+        href: '/tools/password-gen',
+        icon: Lock,
+        category: 'Utility',
+    },
+    {
+        id: '15',
+        name: 'QR Code Generator',
+        description: 'Tạo mã QR cho văn bản, link, email, v.v.',
+        href: '/tools/qr-code',
+        icon: QrCode,
+        category: 'Utility',
+    },
+    {
+        id: '16',
+        name: 'Lorem Ipsum',
+        description: 'Tạo văn bản giả (dummy text) để test giao diện.',
+        href: '/tools/lorem-ipsum',
+        icon: AlignLeft,
+        category: 'Utility',
+    },
+    {
+        id: '17',
+        name: 'Color Converter',
+        description: 'Chuyển đổi mã màu HEX, RGB, HSL, CMYK.',
+        href: '/tools/color-converter',
+        icon: Palette,
+        category: 'Utility',
+    },
+    {
+        id: '18',
+        name: 'Image Converter',
+        description: 'Chuyển đổi định dạng ảnh (PNG, JPG, WebP).',
+        href: '/tools/image-converter',
+        icon: Image,
+        category: 'Utility',
+    },
+    {
+        id: '19',
+        name: 'Meta Tag Generator',
+        description: 'Tạo thẻ Meta SEO và Open Graph cho Facebook/Twitter.',
+        href: '/tools/meta-tag',
+        icon: Tag,
+        category: 'Social',
+    },
+    {
+        id: '20',
+        name: 'Youtube Thumbnail',
+        description: 'Tải ảnh thumbnail chất lượng cao từ video Youtube.',
+        href: '/tools/youtube-thumb',
+        icon: Youtube,
+        category: 'Social',
+    },
+    {
+        id: '21',
+        name: 'Open Graph Checker',
+        description: 'Kiểm tra hiển thị link khi share lên mạng xã hội.',
+        href: '/tools/open-graph',
+        icon: Share2,
+        category: 'Social',
+    },
+];

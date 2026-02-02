@@ -64,20 +64,42 @@ pnpm store prune             # Dọn dẹp cache
 
 ```
 toolify-fe/
-├── app/                     # Next.js App Router
-│   ├── page.tsx            # Trang chủ
-│   ├── layout.tsx          # Root layout
-│   └── tools/              # Các tool pages
-├── components/              # React components
-│   └── home/               # Components cho trang chủ
-│       ├── HeroSection.tsx
-│       ├── ToolCard.tsx
-│       └── ToolsGrid.tsx
-├── data/                    # Data & constants
-│   └── tool.ts             # Danh sách tools
-├── public/                  # Static files
-└── styles/                  # CSS/Tailwind
+├── app/                              # Next.js App Router
+│   ├── page.tsx                      # Trang chủ
+│   ├── layout.tsx                    # Root layout
+│   ├── globals.css                   # Global styles
+│   └── tools/                        # Routes cho các công cụ
+│       └── json-formatter/
+│           └── page.tsx              # Route: /tools/json-formatter
+├── components/                       # React components
+│   ├── home/                         # Components cho trang chủ
+│   │   ├── HeroSection.tsx           # Hero section trang chủ
+│   │   ├── ToolCard.tsx              # Card hiển thị từng tool
+│   │   └── ToolGrid.tsx              # Grid layout cho danh sách tools
+│   ├── shared/                       # UI components dùng chung
+│   │   ├── Button.tsx                # Button component tái sử dụng
+│   │   ├── Navbar.tsx                # Navigation bar
+│   │   └── Textarea.tsx              # Textarea component
+│   └── tools/                        # Logic riêng cho từng công cụ
+│       └── json-formatter/           # Đóng gói toàn bộ logic JSON
+│           ├── JsonFormatter.tsx     # Component chính (Entry point)
+│           ├── JsonControls.tsx      # Thanh điều khiển (Indent 2/4, Copy)
+│           └── JsonView.tsx          # Hiển thị Input/Output
+├── data/                             # Data & constants
+│   └── tool.ts                       # Metadata của các tools (cho ToolCard)
+├── lib/                              # Helper functions & utilities
+│   └── json-helper.ts                # Hàm beautify, minify, validate JSON
+├── public/                           # Static files
+└── styles/                           # CSS/Tailwind
 ```
+
+### Nguyên tắc tổ chức
+
+- **`app/tools/`**: Chỉ chứa route pages (file `page.tsx`), không chứa logic
+- **`components/tools/`**: Chứa toàn bộ logic UI và state management cho từng tool
+- **`components/shared/`**: Components tái sử dụng giữa các tools
+- **`lib/`**: Pure functions, không chứa React components
+- **`data/`**: Configuration và metadata tĩnh
 
 ## 🎯 Workflow phát triển
 
@@ -111,24 +133,78 @@ toolify-fe/
 
 ## 🔧 Thêm tool mới
 
-1. **Thêm vào danh sách tools** (`data/tool.ts`):
-   ```typescript
-   {
-     id: '22',
-     name: 'Tool Name',
-     description: 'Mô tả tool',
-     href: '/tools/tool-slug',
-     icon: IconName,
-     category: 'Dev' | 'Social' | 'Utility',
-   }
-   ```
+### Bước 1: Thêm metadata vào `data/tool.ts`
 
-2. **Tạo page mới** (`app/tools/tool-slug/page.tsx`):
-   ```typescript
-   export default function ToolPage() {
-     return <div>Tool content</div>;
-   }
-   ```
+```typescript
+{
+  id: '22',
+  name: 'Tool Name',
+  description: 'Mô tả tool',
+  href: '/tools/tool-slug',
+  icon: IconName,
+  category: 'Dev' | 'Social' | 'Utility',
+}
+```
+
+### Bước 2: Tạo helper functions trong `lib/` (nếu cần)
+
+```typescript
+// lib/tool-slug-helper.ts
+export function processData(input: string): string {
+  // Logic xử lý thuần túy
+  return result;
+}
+```
+
+### Bước 3: Tạo components trong `components/tools/tool-slug/`
+
+```typescript
+// components/tools/tool-slug/ToolSlugComponent.tsx
+'use client';
+import { useState } from 'react';
+import { processData } from '@/lib/tool-slug-helper';
+
+export default function ToolSlugComponent() {
+  const [input, setInput] = useState('');
+  const [output, setOutput] = useState('');
+
+  const handleProcess = () => {
+    const result = processData(input);
+    setOutput(result);
+  };
+
+  return (
+    <div>
+      {/* UI logic ở đây */}
+    </div>
+  );
+}
+```
+
+### Bước 4: Tạo route page trong `app/tools/tool-slug/page.tsx`
+
+```typescript
+// app/tools/tool-slug/page.tsx
+import ToolSlugComponent from '@/components/tools/tool-slug/ToolSlugComponent';
+
+export default function ToolSlugPage() {
+  return (
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-bold mb-6">Tool Name</h1>
+      <ToolSlugComponent />
+    </div>
+  );
+}
+```
+
+### Lưu ý khi phát triển tool mới
+
+1. **Tách logic khỏi UI**: Đưa các hàm xử lý vào `lib/`, giữ components clean
+2. **Component structure**: 
+   - Component chính (ToolName.tsx) - Entry point
+   - Sub-components (Controls, View, etc.) - Từng phần UI
+3. **Shared components**: Tái sử dụng từ `components/shared/` (Button, Textarea, etc.)
+4. **Type safety**: Định nghĩa types/interfaces cho tool của bạn
 
 ## 🌐 Deploy
 

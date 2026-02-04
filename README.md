@@ -64,40 +64,47 @@ pnpm store prune             # Dọn dẹp cache
 
 ```
 toolify-fe/
-├── app/                              # Next.js App Router
-│   ├── page.tsx                      # Trang chủ
-│   ├── layout.tsx                    # Root layout
-│   ├── globals.css                   # Global styles
-│   └── tools/                        # Routes cho các công cụ
-│       └── json-formatter/
-│           └── page.tsx              # Route: /tools/json-formatter
-├── components/                       # React components
-│   ├── home/                         # Components cho trang chủ
-│   │   ├── HeroSection.tsx           # Hero section trang chủ
-│   │   ├── ToolCard.tsx              # Card hiển thị từng tool
-│   │   └── ToolGrid.tsx              # Grid layout cho danh sách tools
-│   ├── shared/                       # UI components dùng chung
-│   │   ├── Button.tsx                # Button component tái sử dụng
-│   │   ├── Navbar.tsx                # Navigation bar
-│   │   └── Textarea.tsx              # Textarea component
-│   └── tools/                        # Logic riêng cho từng công cụ
-│       └── json-formatter/           # Đóng gói toàn bộ logic JSON
-│           ├── JsonFormatter.tsx     # Component chính (Entry point)
-│           ├── JsonControls.tsx      # Thanh điều khiển (Indent 2/4, Copy)
-│           └── JsonView.tsx          # Hiển thị Input/Output
-├── data/                             # Data & constants
-│   └── tool.ts                       # Metadata của các tools (cho ToolCard)
-├── lib/                              # Helper functions & utilities
-│   └── json-helper.ts                # Hàm beautify, minify, validate JSON
-├── public/                           # Static files
-└── styles/                           # CSS/Tailwind
+├── app/                          # Next.js App Router
+│   ├── globals.css              # Global styles
+│   ├── layout.tsx               # Root layout
+│   ├── page.tsx                 # Homepage
+│   └── tools/                   # Tool pages
+│       ├── json-formatter/      # JSON formatter page
+│       ├── diff-checker/        # Text diff checker page
+│       └── ...                  # Other tool pages
+│
+├── components/                   # React components
+│   ├── home/                    # Homepage components
+│   │   ├── ToolCard.tsx         # Tool card display
+│   │   └── ToolGrid.tsx         # Tool grid layout
+│   ├── tools/                   # Tool-specific components
+│   │   ├── json-formatter/      # JSON formatter UI components
+│   │   ├── diff-checker/        # Text diff checker UI components
+│   │   └── ...                  # Other tool components
+│   └── ui/                      # Shared UI components
+│       ├── Header.tsx           # Site header
+│       └── HeroSection.tsx      # Hero section
+│
+├── data/                        # Static data
+│   └── tool.ts                  # Tool definitions & metadata
+│
+├── lib/                         # Utility functions & helpers
+│   ├── json-helper.ts           # JSON formatting utilities
+│   └── text-diff.ts             # Text diff calculations
+│
+├── public/                      # Static assets
+│
+├── tailwind.config.ts           # Tailwind CSS configuration
+├── tsconfig.json                # TypeScript configuration
+├── next.config.ts               # Next.js configuration
+└── package.json                 # Dependencies & scripts
 ```
 
 ### Nguyên tắc tổ chức
 
 - **`app/tools/`**: Chỉ chứa route pages (file `page.tsx`), không chứa logic
 - **`components/tools/`**: Chứa toàn bộ logic UI và state management cho từng tool
-- **`components/shared/`**: Components tái sử dụng giữa các tools
+- **`components/ui/`**: Components tái sử dụng giữa các tools
 - **`lib/`**: Pure functions, không chứa React components
 - **`data/`**: Configuration và metadata tĩnh
 

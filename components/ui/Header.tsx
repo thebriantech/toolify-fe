@@ -16,13 +16,13 @@ export default function Header() {
 
                 <nav className="hidden md:flex items-center gap-8 font-medium text-sm text-gray-600">
                     <Link href="/" className="hover:text-black transition-colors">
-                        Công cụ
+                        Tools
                     </Link>
-                    <Link href="https://github.com" target="_blank" className="hover:text-black transition-colors">
+                    <Link href="https://github.com/thebriantech/toolify-fe" target="_blank" className="hover:text-black transition-colors">
                         GitHub
                     </Link>
                     <button className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition text-xs font-bold">
-                        Góp ý
+                        Contact us
                     </button>
                 </nav>
             </div>

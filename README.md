@@ -1,233 +1,87 @@
 # Toolify - Developer Utilities
 
-Bộ công cụ mã nguồn mở giúp developer xử lý các tác vụ thường gặp nhanh chóng và an toàn ngay trên trình duyệt.
+An open-source suite of tools designed to help developers handle common tasks quickly and safely, right in the browser.
 
-## 📋 Yêu cầu hệ thống
+## 🚀 Getting Started (Recommended)
 
-- Node.js 18.x trở lên
-- pnpm (khuyến nghị) hoặc npm/yarn
+The easiest way to run Toolify is using Docker. The project is pre-configured with an optimized Multi-stage `Dockerfile` and `docker-compose`.
 
-## 🚀 Cài đặt
+### Prerequisites
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-### 1. Cài đặt pnpm (nếu chưa có)
+### Quick Start
 
-**Cài qua npm:**
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/thebriantech/toolify-fe
+   cd toolify-fe
+   ```
+
+2. **Start Development Environment (with Hot-Reload):**
+   ```bash
+   docker compose up app-dev
+   ```
+   *The app will be available at http://localhost:3001*
+
+3. **Start Production Environment (Optimized build):**
+   ```bash
+   docker compose up app -d
+   ```
+   *The app will be available at http://localhost:3000*
+
+---
+
+## 💻 Manual Installation (Alternative)
+
+If you prefer to run the project without Docker:
+
+### Prerequisites
+- Node.js 18.x or later
+- pnpm (recommended) or npm/yarn
+
+### Setup
+
 ```bash
-npm install -g pnpm
+# 1. Install dependencies
+pnpm install
+
+# 2. Start dev server at http://localhost:3000
+pnpm dev
+
+# 3. Build for production
+pnpm build
+pnpm start
 ```
 
-**Kiểm tra phiên bản:**
-```bash
-pnpm -v
-```
-
-### 2. Clone dự án
-
-```bash
-git clone https://github.com/thebriantech/toolify-fe
-cd toolify-fe
-```
-
-### 3. Cài đặt dependencies
-
-```bash
-pnpm install          # Cài đặt tất cả packages
-```
-
-## 🛠️ Các lệnh pnpm cơ bản
-
-### Development
-```bash
-pnpm dev             # Chạy dev server tại http://localhost:3000
-pnpm build           # Build production
-pnpm start           # Chạy production build
-pnpm lint            # Kiểm tra lỗi code với ESLint
-```
-
-### Quản lý packages
-```bash
-pnpm add <package>           # Thêm package vào dependencies
-pnpm add -D <package>        # Thêm package vào devDependencies
-pnpm remove <package>        # Xóa package
-pnpm update                  # Update tất cả packages
-pnpm outdated                # Kiểm tra packages cũ
-```
-
-### Các lệnh khác
-```bash
-pnpm list                    # Liệt kê tất cả packages đã cài
-pnpm why <package>           # Xem lý do package được cài
-pnpm store prune             # Dọn dẹp cache
-```
-
-## 📁 Cấu trúc dự án
+## 📁 Project Structure
 
 ```
 toolify-fe/
-├── app/                          # Next.js App Router
-│   ├── globals.css              # Global styles
-│   ├── layout.tsx               # Root layout
-│   ├── page.tsx                 # Homepage
-│   └── tools/                   # Tool pages
-│       ├── json-formatter/      # JSON formatter page
-│       ├── diff-checker/        # Text diff checker page
-│       └── ...                  # Other tool pages
-│
+├── app/                          # Next.js App Router (Route pages)
 ├── components/                   # React components
-│   ├── home/                    # Homepage components
-│   │   ├── ToolCard.tsx         # Tool card display
-│   │   └── ToolGrid.tsx         # Tool grid layout
-│   ├── tools/                   # Tool-specific components
-│   │   ├── json-formatter/      # JSON formatter UI components
-│   │   ├── diff-checker/        # Text diff checker UI components
-│   │   └── ...                  # Other tool components
-│   └── ui/                      # Shared UI components
-│       ├── Header.tsx           # Site header
-│       └── HeroSection.tsx      # Hero section
-│
-├── data/                        # Static data
-│   └── tool.ts                  # Tool definitions & metadata
-│
-├── lib/                         # Utility functions & helpers
-│   ├── json-helper.ts           # JSON formatting utilities
-│   └── text-diff.ts             # Text diff calculations
-│
-├── public/                      # Static assets
-│
-├── tailwind.config.ts           # Tailwind CSS configuration
-├── tsconfig.json                # TypeScript configuration
-├── next.config.ts               # Next.js configuration
-└── package.json                 # Dependencies & scripts
+│   ├── tools/                   # Tool-specific UI logic
+│   └── ui/                      # Shared reusable components
+├── data/                        # Static configuration & metadata
+├── lib/                         # Pure functions & helpers
+└── public/                      # Static assets
 ```
 
-### Nguyên tắc tổ chức
+## 🔧 Adding a New Tool
 
-- **`app/tools/`**: Chỉ chứa route pages (file `page.tsx`), không chứa logic
-- **`components/tools/`**: Chứa toàn bộ logic UI và state management cho từng tool
-- **`components/ui/`**: Components tái sử dụng giữa các tools
-- **`lib/`**: Pure functions, không chứa React components
-- **`data/`**: Configuration và metadata tĩnh
+1. **Add metadata:** Register the tool in `data/tool.ts`.
+2. **Add logic:** Create pure functions in `lib/tool-slug-helper.ts`.
+3. **Build UI:** Create components in `components/tools/tool-slug/`.
+4. **Create route:** Add the page entry point in `app/tools/tool-slug/page.tsx`.
 
-## 🎯 Workflow phát triển
+*Note: Keep route pages pure. Move all processing logic to `lib/` and UI states to `components/`.*
 
-1. **Tạo branch mới:**
-   ```bash
-   git checkout -b fea/ten-tinh-nang
-   ```
+## 🌐 Deployment 
 
-2. **Chạy dev server:**
-   ```bash
-   pnpm dev
-   ```
-
-3. **Kiểm tra lỗi code:**
-   ```bash
-   pnpm lint
-   ```
-
-4. **Build để test production:**
-   ```bash
-   pnpm build
-   pnpm start
-   ```
-
-5. **Commit & push:**
-   ```bash
-   git add .
-   git commit -m "feat: Mô tả thay đổi"
-   git push origin fea/ten-tinh-nang
-   ```
-
-## 🔧 Thêm tool mới
-
-### Bước 1: Thêm metadata vào `data/tool.ts`
-
-```typescript
-{
-  id: '22',
-  name: 'Tool Name',
-  description: 'Mô tả tool',
-  href: '/tools/tool-slug',
-  icon: IconName,
-  category: 'Dev' | 'Social' | 'Utility',
-}
-```
-
-### Bước 2: Tạo helper functions trong `lib/` (nếu cần)
-
-```typescript
-// lib/tool-slug-helper.ts
-export function processData(input: string): string {
-  // Logic xử lý thuần túy
-  return result;
-}
-```
-
-### Bước 3: Tạo components trong `components/tools/tool-slug/`
-
-```typescript
-// components/tools/tool-slug/ToolSlugComponent.tsx
-'use client';
-import { useState } from 'react';
-import { processData } from '@/lib/tool-slug-helper';
-
-export default function ToolSlugComponent() {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-
-  const handleProcess = () => {
-    const result = processData(input);
-    setOutput(result);
-  };
-
-  return (
-    <div>
-      {/* UI logic ở đây */}
-    </div>
-  );
-}
-```
-
-### Bước 4: Tạo route page trong `app/tools/tool-slug/page.tsx`
-
-```typescript
-// app/tools/tool-slug/page.tsx
-import ToolSlugComponent from '@/components/tools/tool-slug/ToolSlugComponent';
-
-export default function ToolSlugPage() {
-  return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Tool Name</h1>
-      <ToolSlugComponent />
-    </div>
-  );
-}
-```
-
-### Lưu ý khi phát triển tool mới
-
-1. **Tách logic khỏi UI**: Đưa các hàm xử lý vào `lib/`, giữ components clean
-2. **Component structure**: 
-   - Component chính (ToolName.tsx) - Entry point
-   - Sub-components (Controls, View, etc.) - Từng phần UI
-3. **Shared components**: Tái sử dụng từ `components/shared/` (Button, Textarea, etc.)
-4. **Type safety**: Định nghĩa types/interfaces cho tool của bạn
-
-## 🌐 Deploy
-
-### Vercel (Khuyến nghị)
+### Vercel (Recommended Hosted Solution)
 ```bash
-# Install Vercel CLI
-pnpm add -g vercel
-
-# Deploy
+npm i -g vercel
 vercel
-```
-
-### Build thủ công
-```bash
-pnpm build
-# Upload folder .next và public lên hosting
 ```
 
 ## 📚 Tech Stack
@@ -235,25 +89,16 @@ pnpm build
 - **Framework:** Next.js 15 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
-- **Icons:** Lucide React
 - **Package Manager:** pnpm
 
-## 🤝 Đóng góp
+## 🤝 Contributing
 
-1. Fork dự án
-2. Tạo branch mới (`git checkout -b fea/AmazingFeature`)
-3. Commit changes (`git commit -m 'feat: Add some AmazingFeature'`)
-4. Push to branch (`git push origin fea/AmazingFeature`)
-5. Mở Pull Request
+1. Fork the project.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'feat: Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
 ## 📝 License
 
-MIT License - xem file [LICENSE](LICENSE) để biết thêm chi tiết.
-
-## 🐛 Báo lỗi
-
-Nếu gặp vấn đề, vui lòng tạo [Issue](https://github.com/thebriantech/toolify-fe/issues) mới.
-
----
-
-Made with ❤️ by Toolify Team.
+Distributed under the MIT License. See `LICENSE` for more information.

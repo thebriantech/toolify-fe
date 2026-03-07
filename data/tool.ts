@@ -33,10 +33,10 @@ export const TOOLS: Tool[] = [
     },
     {
         id: '3',
-        name: 'Wifi QR Code',
-        description: 'Generate QR code to share WiFi without reading password.',
-        href: '/tools/wifi-qr',
-        icon: Wifi,
+        name: 'Word & Character Counter',
+        description: 'Count words, characters instantly.',
+        href: '/tools/word-char-counter',
+        icon: Type,
         category: 'Utility',
     },
     {

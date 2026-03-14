@@ -2,6 +2,7 @@ services:
   # Production service — builds and runs the optimized Next.js standalone server
   app:
     container_name: toolify-fe
+    image: toolify-fe:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,36 +13,7 @@ services:
       - NODE_ENV=production
     # Auto-restart on crash, but not when manually stopped
     restart: unless-stopped
-    # Resource constraints to prevent runaway usage
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 512M
-        reservations:
-          cpus: "0.25"
-          memory: 256M
-
-  # Development service — mounts source code for hot reload
-  app-dev:
-    container_name: toolify-fe-dev
-    image: node:22-alpine
-    working_dir: /app
-    volumes:
-      # Bind mount source code so edits on host reflect immediately
-      - .:/app
-      # Anonymous volume to prevent host node_modules from overriding container's
-      - /app/node_modules
-    # Install pnpm, dependencies, then start the dev server
-    command: >
-      sh -c "corepack enable &&
-             corepack prepare pnpm@latest --activate &&
-             pnpm install &&
-             pnpm dev"
-    ports:
-      - "3001:3000"
-    environment:
-      - NODE_ENV=development
-      # Enable polling-based file watching (required for Docker on Windows/Mac)
-      - WATCHPACK_POLLING=true
-    restart: unless-stopped
+    # Local Compose-enforced resource constraints
+    cpus: 1.0
+    mem_limit: 512m
+    mem_reservation: 256m

@@ -1,6 +1,7 @@
 # Stage 1: Base image with pnpm enabled
 FROM node:22-alpine AS base
-RUN corepack enable && corepack prepare pnpm@latest --activate
+ARG PNPM_VERSION=10.28.2
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 
 # Stage 2: Install dependencies (separated for layer caching)
 FROM base AS deps
@@ -51,7 +52,7 @@ EXPOSE 3000
 
 # Periodic health check using wget (curl is not available on Alpine by default)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:${PORT}/ || exit 1
 
 # Start the standalone Next.js server
 CMD ["node", "server.js"]

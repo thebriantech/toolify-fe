@@ -18,18 +18,11 @@ The easiest way to run Toolify is using Docker. The project is pre-configured wi
    cd toolify-fe
    ```
 
-2. **Start Development Environment (with Hot-Reload):**
+2. **Build and start the production container:**
    ```bash
-   docker compose up app-dev
-   ```
-   *The app will be available at http://localhost:3001*
-
-3. **Start Production Environment (Optimized build):**
-   ```bash
-   docker compose up app -d
+   docker compose up -d --build
    ```
    *The app will be available at http://localhost:3000*
-
 ---
 
 ## 💻 Manual Installation (Alternative)

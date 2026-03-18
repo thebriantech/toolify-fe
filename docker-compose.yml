@@ -1,0 +1,19 @@
+services:
+  # Production service — builds and runs the optimized Next.js standalone server
+  app:
+    container_name: toolify-fe
+    image: toolify-fe:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Map host port 3000 to container port 3000
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    # Auto-restart on crash, but not when manually stopped
+    restart: unless-stopped
+    # Local Compose-enforced resource constraints
+    cpus: 1.0
+    mem_limit: 512m
+    mem_reservation: 256m

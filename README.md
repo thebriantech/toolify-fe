@@ -4,7 +4,9 @@ An open-source suite of tools designed to help developers handle common tasks qu
 
 ## 🚀 Getting Started (Recommended)
 
-The easiest way to run Toolify is using Docker. The project is pre-configured with an optimized Multi-stage `Dockerfile` and `docker-compose`.
+The easiest way to run Toolify is using Docker with a 2-image flow:
+- `Dockerfile.base`: shared base image with environment and dependencies.
+- `Dockerfile.prod`: production image that uses the base image, builds app code, and runs standalone output.
 
 ### Prerequisites
 - [Docker](https://docs.docker.com/get-docker/)
@@ -18,11 +20,30 @@ The easiest way to run Toolify is using Docker. The project is pre-configured wi
    cd toolify-fe
    ```
 
-2. **Build and start the production container:**
+2. **Build base image (environment + libraries):**
+   ```bash
+   docker build -f Dockerfile.base -t toolify-fe-base:latest .
+   ```
+
+3. **Build and start the production container:**
    ```bash
    docker compose up -d --build
    ```
    *The app will be available at http://localhost:3000*
+
+### Rebuild Strategy
+
+- Rebuild `toolify-fe-base` when dependencies change (`package.json`, lockfile).
+- Rebuild only production image when app code changes.
+
+```bash
+# Rebuild base when deps change
+docker build -f Dockerfile.base -t toolify-fe-base:latest .
+
+# Rebuild production only
+docker compose build app
+docker compose up -d app
+```
 ---
 
 ## 💻 Manual Installation (Alternative)

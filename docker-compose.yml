@@ -5,7 +5,9 @@ services:
     image: toolify-fe:latest
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+      args:
+        BASE_IMAGE: toolify-fe-base:latest
     # Map host port 3000 to container port 3000
     ports:
       - "3000:3000"

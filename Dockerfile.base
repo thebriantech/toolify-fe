@@ -1,0 +1,14 @@
+# Base image: contains Node.js, pnpm and installed dependencies
+FROM node:22-alpine
+
+ARG PNPM_VERSION=10.28.2
+WORKDIR /app
+
+# Enable pnpm via corepack for reproducible installs
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+
+# Copy dependency manifests first to maximize Docker layer caching
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+# Install all dependencies needed for build (including devDependencies)
+RUN pnpm install --frozen-lockfile

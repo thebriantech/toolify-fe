@@ -1,0 +1,35 @@
+name: Protect Main Branch
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  enforce-owner-only:
+    name: Enforce owner-only access to main
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Check and enforce PR author restrictions
+        env:
+          ALLOWED_USER: thebriantech
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ "$PR_AUTHOR" != "$ALLOWED_USER" ]; then
+            echo "PR author '$PR_AUTHOR' is not authorized to open PRs targeting main."
+            gh pr close "$PR_NUMBER" \
+              --repo "$REPO" \
+              --comment "🚫 Only @${ALLOWED_USER} is allowed to open pull requests targeting the \`main\` branch. This PR has been automatically closed."
+            exit 1
+          fi
+          echo "PR author '$PR_AUTHOR' is authorized. Proceeding."
